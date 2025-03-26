@@ -5,27 +5,22 @@ import axios from "axios"
 const name = ref('')
 const email = ref('')
 const password = ref('')
+type RegisterResponse = void
 
-const register = () => {
+const register = async() => {
   console.log(name.value, email.value, password.value)
 
-  axios.post('http://localhost:8080/register', {
-    name: name.value,
-    email: email.value,
-    password: password.value
-  })
-  .then((response) => {
-    console.log(response)
+  try {   
+    const res = await axios.post<RegisterResponse>('http://localhost:8080/register', {
+      name: name.value,
+      email: email.value,
+      password: password.value
+    })    
+    alert('User registered successfully')    
 
-    if(response.data.status === 'success') {
-      alert('User registered successfully')
-    } else {
-      alert('Error registering user')
-    } 
-  })
-  .catch((error) => {
-    console.log(error)
-  })
+  } catch (error) {
+    alert('Error registering user')    
+  }
 }
 
 </script>
